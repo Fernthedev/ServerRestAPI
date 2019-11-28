@@ -1,0 +1,5 @@
+name: ServerStatusREST
+version: ${project.version}
+author: Fernthedev
+main: io.github.fernthedev.serverstatusrest.ServerStatusRest
+description: A REST API for getting server status info.
