@@ -6,7 +6,7 @@
 
     <groupId>io.github.fernthedev</groupId>
     <artifactId>server-status-rest</artifactId>
-    <version>1.0</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
 
     <name>Server Status REST</name>
