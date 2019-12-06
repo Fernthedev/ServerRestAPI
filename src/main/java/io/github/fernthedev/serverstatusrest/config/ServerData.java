@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -58,8 +59,12 @@ public class ServerData implements Serializable {
     private static final List<AddressPortPair> addressPingStatus = Collections.synchronizedList(new ArrayList<>());
 
 
-    public synchronized void ping() {
+    private void clearPing(boolean status) {
+        addressPingStatus.remove(addressPortPair);
+        online = status;
+    }
 
+    public synchronized void ping() {
         if(addressPingStatus.contains(addressPortPair)) {
             Universal.debug("Already pinging");
             return; // Already pinging
@@ -68,10 +73,12 @@ public class ServerData implements Serializable {
         try (Socket s = new Socket()) {
             addressPingStatus.add(addressPortPair);
             s.connect(new InetSocketAddress(addressPortPair.getAddress(), addressPortPair.getPort()), (int) getTimeoutMS());
-            addressPingStatus.remove(addressPortPair);
-            online = true;
+            clearPing(true);
+        } catch (SocketTimeoutException e) {
+            clearPing(false);
+            Universal.debug(e.getMessage() + " Timed out Name: " + name + " Port: " + addressPortPair.port + " Time: " + getTimeoutMS());
         } catch (SocketException e) {
-            online = false;
+            clearPing(false);
             Universal.debug(e.getMessage() + " Name: " + name + " Port: " + addressPortPair.port + " Time: " + getTimeoutMS());
         } catch (Exception e) {
             e.printStackTrace();
