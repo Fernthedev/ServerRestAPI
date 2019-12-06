@@ -2,6 +2,7 @@ This is a plugin for bungee (support for other servers later on) that allows RES
 
 # Checks
 ![](https://github.com/Fernthedev/ServerRestAPI/workflows/Java%20CI/badge.svg)
+[![Build Status](https://dev.azure.com/Fernthedev/ServerRestAPI/_apis/build/status/Fernthedev.ServerRestAPI?branchName=master)](https://dev.azure.com/Fernthedev/ServerRestAPI/_build/latest?definitionId=6&branchName=master)
 
 ## Setup
 ### NGINX
