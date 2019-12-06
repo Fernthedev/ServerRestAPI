@@ -1,5 +1,8 @@
 This is a plugin for bungee (support for other servers later on) that allows RESTful queries to be made
 
+# Checks
+![](https://github.com/Fernthedev/ServerRestAPI/workflows/Java%20CI/badge.svg)
+
 ## Setup
 ### NGINX
 I have an example configuration for setting up for NGINX since this allows for domains, subdomains, locations, better performance and security.
