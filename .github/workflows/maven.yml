@@ -21,4 +21,4 @@ jobs:
         # Artifact name
         name: Files
         # Directory containing files to upload
-        path: ./target/
+        path: ./target/*.jar
