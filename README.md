@@ -10,7 +10,7 @@ This configuration is based on Let's Encrypt HTTPS setup.
 server {
 
     root /var/www/html/site;
-    index index.php index.html index.htm index.nginx-debian.html;
+    index index.html index.htm index.nginx-debian.html;
 
     server_name site.com www.site.com;
 
@@ -24,10 +24,6 @@ server {
 
     location / {
       try_files $uri $uri/ =404;
-    }
-    location ~ \.php$ {
-       include snippets/fastcgi-php.conf;
-       fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
     }
 
     listen [::]:443 ssl ipv6only=on; # managed by Certbot
