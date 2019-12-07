@@ -4,11 +4,11 @@ import com.github.fernthedev.fernapi.universal.api.CommandSender;
 import com.github.fernthedev.fernapi.universal.api.UniversalCommand;
 import io.github.fernthedev.serverstatusrest.Core;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainCommand extends UniversalCommand {
-    private Map<String, ArgumentRunnable> argMap = new HashMap<>();
+
 
     /**
      * Construct a new command.
@@ -16,7 +16,7 @@ public class MainCommand extends UniversalCommand {
      */
     public MainCommand() {
         super("restapi", "restapi.command", "srest");
-        argMap.put("reload", sender -> {
+        addArgument(new Argument("reload", (sender, args) -> {
             if(!sender.hasPermission("restapi.command.reload")) {
                 sendMessage(sender, "&cYou do not have permission to use this command.");
                 return;
@@ -26,10 +26,7 @@ public class MainCommand extends UniversalCommand {
 
 
             sendMessage(sender, "&aReloaded Config. Took: " + timeMS + "ms");
-
-        });
-
-        argMap.put("stop", sender -> {
+        }), new Argument("stop", (sender, args) -> {
             if(!sender.hasPermission("restapi.command.stop")) {
                 sendMessage(sender, "&cYou do not have permission to use this command.");
                 return;
@@ -37,28 +34,25 @@ public class MainCommand extends UniversalCommand {
             sendMessage(sender,"&6Stopping server.");
             Core.shutdown();
             sendMessage(sender,"&aStopping server.");
-        });
+        }), new Argument("start", (sender, args) -> {
+                    if(!sender.hasPermission("restapi.command.start")) {
+                        sendMessage(sender, "&cYou do not have permission to use this command.");
+                        return;
+                    }
+                    sendMessage(sender,"&6Starting server.");
+                    Core.runServer();
+                    sendMessage(sender,"&aStarted server.");
+        }), new Argument("restart", (sender, args) -> {
+                    if(!sender.hasPermission("restapi.command.restart")) {
+                        sendMessage(sender, "&cYou do not have permission to use this command.");
+                        return;
+                    }
 
-        argMap.put("start", sender -> {
-            if(!sender.hasPermission("restapi.command.start")) {
-                sendMessage(sender, "&cYou do not have permission to use this command.");
-                return;
-            }
-            sendMessage(sender,"&6Starting server.");
-            Core.runServer();
-            sendMessage(sender,"&aStarted server.");
-        });
-
-        argMap.put("restart", sender -> {
-            if(!sender.hasPermission("restapi.command.restart")) {
-                sendMessage(sender, "&cYou do not have permission to use this command.");
-                return;
-            }
-
-            sendMessage(sender,"&6Restarting server.");
-            Core.restart();
-            sendMessage(sender,"&aRestarted server.");
-        });
+                    sendMessage(sender,"&6Restarting server.");
+                    Core.restart();
+                    sendMessage(sender,"&aRestarted server.");
+        })
+        );
     }
 
     /**
@@ -75,13 +69,22 @@ public class MainCommand extends UniversalCommand {
             String arg0 = args[0];
 
 
-            ArgumentRunnable argumentRunnable = argMap.get(arg0.toLowerCase());
+            try {
+                ArgumentRunnable argumentRunnable = handleArguments(sender, args);
+                argumentRunnable.run(sender, args);
+            } catch (ArgumentNotFoundException e) {
+                List<String> listString = new ArrayList<>();
 
-            if (argumentRunnable == null) {
-                sendMessage(sender, "&cUnknown argument &6{&e" + arg0 + "&6} Possible args: " + argMap.keySet());
-            } else {
-                argumentRunnable.run(sender);
+                for (Argument argument : arguments) {
+                    listString.add(argument.getName());
+                }
+
+                sendMessage(sender, "&cUnknown argument &6{&e" + arg0 + "&6} &cPossible args: &6" + listString);
             }
+
+
+
+
         }
     }
 }
