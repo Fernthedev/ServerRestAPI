@@ -8,7 +8,7 @@
         <init-param>
             <param-name>jersey.config.server.provider.packages</param-name>
 <!--            <param-value>com.vogella.jersey.first</param-value>-->
-            <param-value>io.github.fernthedev.serverstatusrest.rest</param-value>
+            <param-value>io.github.fernthedev.serverstatusrest.core.rest</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>

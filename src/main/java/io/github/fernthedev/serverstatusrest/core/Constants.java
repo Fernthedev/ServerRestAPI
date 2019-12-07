@@ -1,4 +1,4 @@
-package io.github.fernthedev.serverstatusrest;
+package io.github.fernthedev.serverstatusrest.core;
 
 public class Constants {
 

@@ -1,11 +1,11 @@
-package io.github.fernthedev.serverstatusrest.rest;
+package io.github.fernthedev.serverstatusrest.core.rest;
 
 import com.alibaba.fastjson.JSON;
 import com.github.fernthedev.fernapi.universal.Universal;
-import io.github.fernthedev.serverstatusrest.Constants;
-import io.github.fernthedev.serverstatusrest.ServerStatusRest;
-import io.github.fernthedev.serverstatusrest.config.ServerData;
-import io.github.fernthedev.serverstatusrest.config.ServerStatusList;
+import io.github.fernthedev.serverstatusrest.Core;
+import io.github.fernthedev.serverstatusrest.core.Constants;
+import io.github.fernthedev.serverstatusrest.core.config.ServerData;
+import io.github.fernthedev.serverstatusrest.core.config.ServerStatusList;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -23,7 +23,7 @@ public class ListREST {
         Universal.getMethods().runSchedule(() -> {
             try {
                 Universal.debug("Pinging the servers");
-                for (ServerData serverData : ServerStatusRest.getConfigManager().getConfigValues().getServers().values()) {
+                for (ServerData serverData : Core.getConfigManager().getConfigValues().getServers().values()) {
 
                     if (serverData.isHidden()) {
                         serverStatusList.getServerMap().remove(serverData.getName());
@@ -39,7 +39,7 @@ public class ListREST {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }, 0, ServerStatusRest.getConfigManager().getAverageTimeMS(), TimeUnit.MILLISECONDS);
+        }, 0, Core.getConfigManager().getAverageTimeMS(), TimeUnit.MILLISECONDS);
 
     }
 

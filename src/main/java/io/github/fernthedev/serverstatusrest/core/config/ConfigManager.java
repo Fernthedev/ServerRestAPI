@@ -1,4 +1,4 @@
-package io.github.fernthedev.serverstatusrest.config;
+package io.github.fernthedev.serverstatusrest.core.config;
 
 import com.github.fernthedev.fernapi.universal.Universal;
 import com.github.fernthedev.gson.GsonConfig;

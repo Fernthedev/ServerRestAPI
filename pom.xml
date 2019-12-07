@@ -6,7 +6,7 @@
 
     <groupId>io.github.fernthedev</groupId>
     <artifactId>server-status-rest</artifactId>
-    <version>1.0.1</version>
+    <version>1.1.0</version>
     <packaging>jar</packaging>
 
     <name>Server Status REST</name>
@@ -21,9 +21,6 @@
     <build>
         <defaultGoal>clean package</defaultGoal>
         <plugins>
-
-
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -108,7 +105,7 @@
 
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>io.github.fernthedev.serverstatusrest.ServerStatusRest</mainClass>
+                                    <mainClass>io.github.fernthedev.serverstatusrest.minecraft.bungee.Bungee</mainClass>
                                 </transformer>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
                             </transformers>
@@ -134,6 +131,15 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+        <repository>
+            <id>velocity</id>
+            <url>https://repo.velocitypowered.com/snapshots/</url>
+        </repository>
+        <repository>
+            <id>sponge-repo</id>
+            <name>Sponge Maven Repository</name>
+            <url>https://repo.spongepowered.org/maven</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -149,7 +155,26 @@
             <!-- Tag can be found in releases at github repository -->
             <version>1.9b1</version>
         </dependency>
-<!--        <dependency>-->
+        <dependency>
+            <groupId>com.velocitypowered</groupId>
+            <artifactId>velocity-api</artifactId>
+            <version>1.1.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.spongepowered</groupId>
+            <artifactId>spongeapi</artifactId>
+            <version>7.1.0</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.29</version>
+        </dependency>
+
+        <!--        <dependency>-->
 <!--            <groupId>jakarta.ws.rs</groupId>-->
 <!--            <artifactId>jakarta.ws.rs-api</artifactId>-->
 <!--            <version>2.1.6</version>-->

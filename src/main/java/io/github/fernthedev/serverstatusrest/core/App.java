@@ -1,4 +1,6 @@
-package io.github.fernthedev.serverstatusrest;
+package io.github.fernthedev.serverstatusrest.core;
+
+import io.github.fernthedev.serverstatusrest.Core;
 
 import javax.inject.Singleton;
 import javax.ws.rs.core.Application;
@@ -32,6 +34,6 @@ public class App extends Application {
     @Override
     public Set<Class<?>> getClasses() {
 //        return super.getClasses();
-        return new HashSet<>(ServerStatusRest.getRestHandlers());
+        return new HashSet<>(Core.getRestHandlers());
     }
 }
