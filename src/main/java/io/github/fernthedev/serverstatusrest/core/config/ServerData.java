@@ -44,7 +44,7 @@ public class ServerData implements Serializable {
     @Getter
     private boolean hidden = false;
 
-    public ServerData() {
+    private ServerData() {
         if (timeoutMS <= 0) timeoutMS = 1;
     }
 

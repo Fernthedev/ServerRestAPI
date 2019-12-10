@@ -73,8 +73,6 @@ M
 src/main/resources/bungee.yml,f\e\fe2da57e2cbf7f852b773888aff9098ee28c2610
 J
 src/main/resources/web.xml,e\5\e5d7d67c2367ee2aa7fd822c8eb3f98ff6ce0d26
-
-Qsrc/main/java/io/github/fernthedev/serverstatusrest/command/ArgumentRunnable.java,a\a\aaf436baa283e32e4cc2bedbddfa1102456f87e2
 ‚
 Rsrc/main/java/io/github/fernthedev/serverstatusrest/core/config/ConfigManager.java,5\2\520a32f204ead54c5341f736b8cf448ab1fb115f
 
@@ -93,9 +91,17 @@ Gsrc/main/java/io/github/fernthedev/serverstatusrest/core/Constants.java,0\6\06
 Psrc/main/java/io/github/fernthedev/serverstatusrest/minecraft/bungee/Bungee.java,6\d\6d64cf407ea1a14016cebc325f35c10ee125362a
 „
 Tsrc/main/java/io/github/fernthedev/serverstatusrest/minecraft/velocity/Velocity.java,7\e\7e604746140913c41eb64688f71bae6dd1dfcffc
-m
-=src/main/java/io/github/fernthedev/serverstatusrest/Core.java,e\e\ee11d43ce108506580168fd560326be8d4908b52
 A
 ServerRestAPI.iml,a\d\ad928025cc5cbfcb4cfb23d4d93356649fa28b1b
-|
-Lsrc/main/java/io/github/fernthedev/serverstatusrest/command/MainCommand.java,0\a\0a865bdd9a61ec521760fb45f562609ac1f742c6
+ƒ
+Ssrc/main/java/io/github/fernthedev/serverstatusrest/standalone/TerminalCommand.java,0\6\0681a34512c6b7262608f01596b8c54a2d8c81cd
+Š
+Zsrc/main/java/io/github/fernthedev/serverstatusrest/standalone/TerminalCommandHandler.java,8\5\85ed7c1915b81179736bb5415e46e67f77de773b
+€
+Psrc/main/java/io/github/fernthedev/serverstatusrest/standalone/TerminalMain.java,8\0\80bd4f1cf665870e168b0597737593cf338e7e85
+…
+Usrc/main/java/io/github/fernthedev/serverstatusrest/standalone/TerminalInterface.java,3\0\309592d0213cbf3d9772a5a1b1f5a26bfb38e640
+ˆ
+Xsrc/main/java/io/github/fernthedev/serverstatusrest/standalone/TerminalScheduleTask.java,9\1\91c8b9c77ccb27c5e7146cff0430c4eacac6e730
+ƒ
+Ssrc/main/java/io/github/fernthedev/serverstatusrest/standalone/TerminalScheduler.kt,0\2\02cccdf17eec955b5d19ac68fb58986edcaa86da

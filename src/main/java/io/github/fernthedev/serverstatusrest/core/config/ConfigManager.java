@@ -1,10 +1,10 @@
 package io.github.fernthedev.serverstatusrest.core.config;
 
 import com.github.fernthedev.fernapi.universal.Universal;
+import com.github.fernthedev.fernapi.universal.data.chat.ChatColor;
+import com.github.fernthedev.fernapi.universal.data.network.IServerInfo;
 import com.github.fernthedev.gson.GsonConfig;
 import lombok.Getter;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.config.ServerInfo;
 
 import java.io.File;
 import java.util.Map;
@@ -33,25 +33,38 @@ public class ConfigManager {
 
         Runnable runnable = () -> {
             long timeStart = System.nanoTime();
-            for (String serverName : ProxyServer.getInstance().getServers().keySet()) {
-                ServerInfo info = ProxyServer.getInstance().getServerInfo(serverName);
 
-                if(!serverDataMap.containsKey(serverName)) {
-                    serverDataMap.put(serverName, new ServerData(serverName, new ServerData.AddressPortPair(info.getAddress().getHostString(), info.getAddress().getPort()), 2000));
-                } else {
-                    ServerData serverData = serverDataMap.get(serverName);
+            if (Universal.getNetworkHandler() != null) {
+                Universal.getMethods().getLogger().info(ChatColor.GREEN + "Updating server info in config.");
+                for (String serverName : Universal.getNetworkHandler().getServers().keySet()) {
+                    IServerInfo info = Universal.getNetworkHandler().getServer(serverName);
 
-                    serverData.setAddressPortPair(new ServerData.AddressPortPair(info.getAddress().getHostString(), info.getAddress().getPort()));
-                    serverData.setName(info.getName());
-                    serverDataMap.put(serverName, serverData);
+                    if (!serverDataMap.containsKey(serverName)) {
+                        serverDataMap.put(serverName, new ServerData(serverName, new ServerData.AddressPortPair(info.getAddress().getHostString(), info.getAddress().getPort()), 2000));
+                    } else {
+                        ServerData serverData = serverDataMap.get(serverName);
+
+                        serverData.setAddressPortPair(new ServerData.AddressPortPair(info.getAddress().getHostString(), info.getAddress().getPort()));
+                        serverData.setName(info.getName());
+                        serverDataMap.put(serverName, serverData);
+                    }
                 }
             }
+
             long totalMS = 0;
             int amount = getConfigValues().getServers().size();
+
+            if (amount <= 0) {
+                serverDataMap.put("test", new ServerData("test", new ServerData.AddressPortPair("localhost", 25566), 2000));
+                serverDataMap.put("test2", new ServerData("test2", new ServerData.AddressPortPair("localhost", 25567), 2000));
+                amount = getConfigValues().getServers().size();
+            }
+
             for (ServerData serverData : getConfigValues().getServers().values()) {
                 totalMS += serverData.getTimeoutMS();
             }
-            averageTimeMS = totalMS /amount;
+            averageTimeMS = totalMS / amount;
+
 
             gsonConfig.save();
             long timeEnd = System.nanoTime();
@@ -74,7 +87,7 @@ public class ConfigManager {
     }
 
     @Getter
-    private long averageTimeMS;
+    private long averageTimeMS = -1;
 
 
 }

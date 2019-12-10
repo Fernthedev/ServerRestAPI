@@ -1,8 +1,8 @@
-package io.github.fernthedev.serverstatusrest.command;
+package io.github.fernthedev.serverstatusrest.minecraft.command;
 
 import com.github.fernthedev.fernapi.universal.api.CommandSender;
 import com.github.fernthedev.fernapi.universal.api.UniversalCommand;
-import io.github.fernthedev.serverstatusrest.Core;
+import io.github.fernthedev.serverstatusrest.core.Core;
 
 import java.util.ArrayList;
 import java.util.List;

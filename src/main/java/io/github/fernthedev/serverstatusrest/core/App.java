@@ -1,7 +1,5 @@
 package io.github.fernthedev.serverstatusrest.core;
 
-import io.github.fernthedev.serverstatusrest.Core;
-
 import javax.inject.Singleton;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Feature;

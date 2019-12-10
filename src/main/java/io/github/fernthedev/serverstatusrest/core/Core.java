@@ -1,8 +1,7 @@
-package io.github.fernthedev.serverstatusrest;
+package io.github.fernthedev.serverstatusrest.core;
 
 import com.github.fernthedev.fernapi.universal.Universal;
-import io.github.fernthedev.serverstatusrest.core.App;
-import io.github.fernthedev.serverstatusrest.command.MainCommand;
+import io.github.fernthedev.serverstatusrest.minecraft.command.MainCommand;
 import io.github.fernthedev.serverstatusrest.core.config.ConfigManager;
 import io.github.fernthedev.serverstatusrest.core.rest.ListREST;
 import io.servicetalk.http.netty.HttpServers;
@@ -35,7 +34,7 @@ public class Core {
     public static void init() {
         if (instance == null) {
             instance = new Core();
-            //        Universal.setDebug(true);
+//            Universal.setDebug(true);
             restHandlers.add(App.class);
             restHandlers.add(ListREST.class);
 

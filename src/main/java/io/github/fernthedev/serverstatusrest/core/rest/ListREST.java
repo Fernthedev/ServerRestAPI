@@ -2,7 +2,7 @@ package io.github.fernthedev.serverstatusrest.core.rest;
 
 import com.alibaba.fastjson.JSON;
 import com.github.fernthedev.fernapi.universal.Universal;
-import io.github.fernthedev.serverstatusrest.Core;
+import io.github.fernthedev.serverstatusrest.core.Core;
 import io.github.fernthedev.serverstatusrest.core.Constants;
 import io.github.fernthedev.serverstatusrest.core.config.ServerData;
 import io.github.fernthedev.serverstatusrest.core.config.ServerStatusList;
@@ -20,9 +20,10 @@ public class ListREST {
 
     public static void setupTask() {
         serverStatusList = new ServerStatusList();
-        Universal.getMethods().runSchedule(() -> {
+        Universal.getScheduler().runSchedule(() -> {
             try {
                 Universal.debug("Pinging the servers");
+
                 for (ServerData serverData : Core.getConfigManager().getConfigValues().getServers().values()) {
 
                     if (serverData.isHidden()) {
