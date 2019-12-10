@@ -1,4 +1,4 @@
-This is a plugin for bungee (support for other servers later on) that allows RESTful queries to be made
+This is a plugin for bungee/velocity or standalone jar in Terminal (support for other servers later on) that allows RESTful queries to be made
 
 # Checks
 ![](https://github.com/Fernthedev/ServerRestAPI/workflows/Java%20CI/badge.svg)
