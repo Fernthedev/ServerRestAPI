@@ -16,7 +16,7 @@
         <java.version>1.8</java.version>
         <servicetalk.ver>0.25.0</servicetalk.ver>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <kotlin.version>1.3.70</kotlin.version>
+        <kotlin.version>1.4.0</kotlin.version>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
     </properties>
 
