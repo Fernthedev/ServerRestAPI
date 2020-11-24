@@ -25,6 +25,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ServerData implements Serializable {
 
+    private static final List<AddressPortPair> addressPingStatus = Collections.synchronizedList(new ArrayList<>());
+
     @NonNull
     private String name;
 
@@ -56,7 +58,7 @@ public class ServerData implements Serializable {
     @Getter
     private transient volatile boolean online = false;
 
-    private static final List<AddressPortPair> addressPingStatus = Collections.synchronizedList(new ArrayList<>());
+
 
 
     private void clearPing(boolean status) {
@@ -73,6 +75,10 @@ public class ServerData implements Serializable {
         try (Socket s = new Socket()) {
             addressPingStatus.add(addressPortPair);
             s.connect(new InetSocketAddress(addressPortPair.getAddress(), addressPortPair.getPort()), (int) getTimeoutMS());
+
+            if (!s.isClosed())
+                s.close();
+
             clearPing(true);
         } catch (SocketTimeoutException e) {
             clearPing(false);
@@ -87,7 +93,7 @@ public class ServerData implements Serializable {
 
     @AllArgsConstructor
     @Data
-    public static class AddressPortPair {
+    public static class AddressPortPair implements Serializable {
         private String address;
 
         private int port;
