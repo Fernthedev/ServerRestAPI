@@ -1,6 +1,5 @@
 package io.github.fernthedev.serverstatusrest.standalone
 
-import com.github.fernthedev.fernapi.server.bungee.scheduler.BungeeScheduledTaskWrapper
 import com.github.fernthedev.fernapi.universal.handlers.IScheduler
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
