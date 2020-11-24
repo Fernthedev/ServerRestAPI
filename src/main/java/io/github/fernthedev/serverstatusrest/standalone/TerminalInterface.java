@@ -33,7 +33,7 @@ public class TerminalInterface implements MethodInterface {
 
     @Override
     public ServerType getServerType() {
-        return null;
+        return ServerType.OTHER;
     }
 
     @Override

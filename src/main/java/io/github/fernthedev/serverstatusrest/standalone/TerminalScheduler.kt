@@ -1,9 +1,11 @@
 package io.github.fernthedev.serverstatusrest.standalone
 
+import com.github.fernthedev.fernapi.server.bungee.scheduler.BungeeScheduledTaskWrapper
 import com.github.fernthedev.fernapi.universal.handlers.IScheduler
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import lombok.Getter
 import lombok.RequiredArgsConstructor
-import org.bukkit.scheduler.BukkitRunnable
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit
@@ -87,7 +89,28 @@ class TerminalScheduler : IScheduler<TerminalScheduleTask, UUID> {
      * @param runnable the runnable
      */
     override fun runAsync(runnable: Runnable?): TerminalScheduleTask {
-        TODO("Not yet implemented")
+        val completableFuture = CompletableFuture<Void?>()
+        val newTask = Runnable {
+            runnable!!.run()
+            completableFuture.complete(null)
+        }
+
+        val timerTask: TimerTask = object : TimerTask() {
+            override fun run() {
+                newTask.run()
+                completableFuture.complete(null)
+            }
+        }
+
+        GlobalScope.launch {
+            newTask.run()
+        }
+
+
+        val taskSchedule = TerminalScheduleTask(newTask, timerTask, completableFuture)
+
+        timerTaskMap[taskSchedule.id] = taskSchedule
+        return taskSchedule
     }
 
 }

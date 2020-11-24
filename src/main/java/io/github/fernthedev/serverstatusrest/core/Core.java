@@ -47,8 +47,8 @@ public class Core {
 
             runServer();
 
-            if (Universal.getMethods().getServerType() != null)
-                Universal.getCommandHandler().registerCommand(new MainCommand());
+
+            Universal.getCommandHandler().registerCommand(new MainCommand());
 
             ListREST.setupTask();
         } else throw new IllegalStateException("Already initialized");

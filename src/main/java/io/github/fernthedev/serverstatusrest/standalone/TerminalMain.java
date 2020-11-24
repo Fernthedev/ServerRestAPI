@@ -1,8 +1,8 @@
 package io.github.fernthedev.serverstatusrest.standalone;
 
+import co.aikar.commands.TerminalCommandHandler;
 import com.github.fernthedev.fernapi.universal.Universal;
 import com.github.fernthedev.fernapi.universal.handlers.FernAPIPlugin;
-import com.github.fernthedev.fernapi.universal.handlers.NetworkHandler;
 import io.github.fernthedev.serverstatusrest.core.Core;
 import lombok.Getter;
 
@@ -27,8 +27,8 @@ public class TerminalMain implements FernAPIPlugin {
         Universal.getInstance().setup(new TerminalInterface(this),
                 this,
                 null,
-                null,
-                null,
+                new TerminalMessageHandler(),
+                new TerminalCommandHandler(),
                 null,
                 scheduler,
                 null);
