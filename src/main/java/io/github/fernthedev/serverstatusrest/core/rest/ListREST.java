@@ -1,9 +1,9 @@
 package io.github.fernthedev.serverstatusrest.core.rest;
 
-import com.alibaba.fastjson.JSON;
 import com.github.fernthedev.fernapi.universal.Universal;
-import io.github.fernthedev.serverstatusrest.core.Core;
+import com.google.gson.Gson;
 import io.github.fernthedev.serverstatusrest.core.Constants;
+import io.github.fernthedev.serverstatusrest.core.Core;
 import io.github.fernthedev.serverstatusrest.core.config.ServerData;
 import io.github.fernthedev.serverstatusrest.core.config.ServerStatusList;
 
@@ -31,7 +31,7 @@ public class ListREST {
                         continue;
                     }
 
-                    Universal.getMethods().runAsync(() -> {
+                    Universal.getScheduler().runAsync(() -> {
                         serverData.ping();
                         Universal.debug("Pinging the server info Name:" + serverData.getName() + " status: " + serverData.isOnline() + " " + serverData);
                         serverStatusList.getServerMap().put(serverData.getName(), serverData.isOnline());
@@ -48,7 +48,7 @@ public class ListREST {
     @Produces({MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN})
     @Path(value = "/get")
     public String getServerListStatus() {
-        return JSON.toJSONString(serverStatusList);
+        return new Gson().toJson(serverStatusList);
     }
 
 }

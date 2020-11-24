@@ -1,7 +1,9 @@
 package io.github.fernthedev.serverstatusrest.standalone;
 
-import com.github.fernthedev.fernapi.universal.api.CommandSender;
+import com.github.fernthedev.fernapi.universal.api.FernCommandIssuer;
+import com.github.fernthedev.fernapi.universal.api.IFConsole;
 import com.github.fernthedev.fernapi.universal.api.IFPlayer;
+import com.github.fernthedev.fernapi.universal.api.OfflineFPlayer;
 import com.github.fernthedev.fernapi.universal.handlers.FernAPIPlugin;
 import com.github.fernthedev.fernapi.universal.handlers.MethodInterface;
 import com.github.fernthedev.fernapi.universal.handlers.ServerType;
@@ -20,6 +22,11 @@ public class TerminalInterface implements MethodInterface {
     private TerminalMain terminalMain;
 
     @Override
+    public boolean isMainThread() {
+        return false;
+    }
+
+    @Override
     public Logger getLogger() {
         return terminalMain.getLogger();
     }
@@ -34,6 +41,17 @@ public class TerminalInterface implements MethodInterface {
         return terminalMain;
     }
 
+    /**
+     * Converts the command sender to it's IFPlayer instance
+     *
+     * @param commandSender
+     * @return
+     */
+    @Override
+    public FernCommandIssuer convertCommandSenderToAPISender(@NonNull Object commandSender) {
+        return null;
+    }
+
     @Override
     public IFPlayer convertPlayerObjectToFPlayer(Object player) {
         return null;
@@ -44,26 +62,40 @@ public class TerminalInterface implements MethodInterface {
         return null;
     }
 
+
+    /**
+     * Converts the command sender to it's IFPlayer instance
+     *
+     * @param commandSender
+     * @return
+     */
     @Override
-    public CommandSender convertCommandSenderToAPISender(@NonNull Object commandSender) {
+    public IFConsole convertConsoleToAPISender(Object commandSender) {
         return null;
     }
 
+    /**
+     * Returns player from server
+     *
+     * @param name Name of player
+     * @return The IFPlayer instance. It never returns null, however you can check if the player is null with {@link IFPlayer#isPlayerNull()}
+     */
     @Override
-    public IFPlayer getPlayerFromName(String name) {
+    public @NonNull OfflineFPlayer getPlayerFromName(String name) {
         return null;
     }
 
+    /**
+     * Returns player from server
+     *
+     * @param uuid Name of player
+     * @return The IFPlayer instance. It never returns null, however you can check if the player is null with {@link IFPlayer#isPlayerNull()}
+     */
     @Override
-    public IFPlayer getPlayerFromUUID(UUID uuid) {
+    public @NonNull OfflineFPlayer getPlayerFromUUID(UUID uuid) {
         return null;
     }
 
-    @Override
-    public void runAsync(Runnable runnable) {
-        Thread t = new Thread(runnable);
-        t.start();
-    }
 
     @Override
     public List<IFPlayer> getPlayers() {
@@ -80,8 +112,18 @@ public class TerminalInterface implements MethodInterface {
         return null;
     }
 
+    /**
+     * Returns the uuid of the player from name
+     *
+     * @param name
+     */
     @Override
-    public UUID getUUIDFromPlayer(String name) {
+    public UUID getUUIDFromPlayerName(String name) {
+        return null;
+    }
+
+    @Override
+    public List<IFPlayer> matchPlayerName(String name) {
         return null;
     }
 

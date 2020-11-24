@@ -3,7 +3,9 @@ package io.github.fernthedev.serverstatusrest.standalone
 import com.github.fernthedev.fernapi.universal.handlers.IScheduler
 import lombok.Getter
 import lombok.RequiredArgsConstructor
+import org.bukkit.scheduler.BukkitRunnable
 import java.util.*
+import java.util.concurrent.CompletableFuture
 import java.util.concurrent.TimeUnit
 
 @RequiredArgsConstructor
@@ -24,16 +26,17 @@ class TerminalScheduler : IScheduler<TerminalScheduleTask, UUID> {
      * @param unit  the unit in which the delay will be measured
      */
     override fun runSchedule(task: Runnable, delay: Long, unit: TimeUnit): TerminalScheduleTask? {
+        val completableFuture = CompletableFuture<Void?>()
+
         val timerTask: TimerTask = object : TimerTask() {
             override fun run() {
                 task.run()
+                completableFuture.complete(null)
             }
         }
 
-
-
         timer.schedule(timerTask, unit.toMillis(delay))
-        val taskSchedule = TerminalScheduleTask(task, timerTask)
+        val taskSchedule = TerminalScheduleTask(task, timerTask, completableFuture)
 
         timerTaskMap[taskSchedule.id] = taskSchedule
         return taskSchedule
@@ -51,14 +54,17 @@ class TerminalScheduler : IScheduler<TerminalScheduleTask, UUID> {
      * @param unit   the unit in which the delay and period will be measured
      */
     override fun runSchedule(task: Runnable, delay: Long, period: Long, unit: TimeUnit): TerminalScheduleTask? {
+        val completableFuture = CompletableFuture<Void?>()
+
         val timerTask: TimerTask = object : TimerTask() {
             override fun run() {
                 task.run()
+                completableFuture.complete(null)
             }
         }
 
         timer.schedule(timerTask, unit.toMillis(delay), unit.toMillis(period))
-        val taskSchedule = TerminalScheduleTask(task, timerTask)
+        val taskSchedule = TerminalScheduleTask(task, timerTask, completableFuture)
 
         timerTaskMap[taskSchedule.id] = taskSchedule
         return taskSchedule
@@ -74,6 +80,14 @@ class TerminalScheduler : IScheduler<TerminalScheduleTask, UUID> {
 
     override fun cancelTask(id: UUID?) {
         timerTaskMap[id]!!.cancel()
+    }
+
+    /**
+     * Runs the given runnable in async
+     * @param runnable the runnable
+     */
+    override fun runAsync(runnable: Runnable?): TerminalScheduleTask {
+        TODO("Not yet implemented")
     }
 
 }

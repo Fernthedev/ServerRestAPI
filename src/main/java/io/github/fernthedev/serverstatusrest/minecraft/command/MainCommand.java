@@ -1,90 +1,61 @@
 package io.github.fernthedev.serverstatusrest.minecraft.command;
 
-import com.github.fernthedev.fernapi.universal.api.CommandSender;
-import com.github.fernthedev.fernapi.universal.api.UniversalCommand;
+import co.aikar.commands.BaseCommand;
+import co.aikar.commands.annotation.CommandAlias;
+import co.aikar.commands.annotation.CommandPermission;
+import co.aikar.commands.annotation.Default;
+import co.aikar.commands.annotation.Subcommand;
+import com.github.fernthedev.fernapi.universal.api.FernCommandIssuer;
 import io.github.fernthedev.serverstatusrest.core.Core;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class MainCommand extends UniversalCommand {
-
-
-    /**
-     * Construct a new command.
-     *
-     */
-    public MainCommand() {
-        super("restapi", "restapi.command", "srest");
-        addArgument(new Argument("reload", (sender, args) -> {
-            if(!sender.hasPermission("restapi.command.reload")) {
-                sendMessage(sender, "&cYou do not have permission to use this command.");
-                return;
-            }
-            sendMessage(sender, "&aReloading config.");
-            long timeMS = Core.getConfigManager().sync(false);
+@CommandAlias("restapi|srest")
+@CommandPermission("restapi.command")
+public class MainCommand extends BaseCommand {
 
 
-            sendMessage(sender, "&aReloaded Config. Took: " + timeMS + "ms");
-        }), new Argument("stop", (sender, args) -> {
-            if(!sender.hasPermission("restapi.command.stop")) {
-                sendMessage(sender, "&cYou do not have permission to use this command.");
-                return;
-            }
-            sendMessage(sender,"&6Stopping server.");
-            Core.shutdown();
-            sendMessage(sender,"&aStopping server.");
-        }), new Argument("start", (sender, args) -> {
-                    if(!sender.hasPermission("restapi.command.start")) {
-                        sendMessage(sender, "&cYou do not have permission to use this command.");
-                        return;
-                    }
-                    sendMessage(sender,"&6Starting server.");
-                    Core.runServer();
-                    sendMessage(sender,"&aStarted server.");
-        }), new Argument("restart", (sender, args) -> {
-                    if(!sender.hasPermission("restapi.command.restart")) {
-                        sendMessage(sender, "&cYou do not have permission to use this command.");
-                        return;
-                    }
-
-                    sendMessage(sender,"&6Restarting server.");
-                    Core.restart();
-                    sendMessage(sender,"&aRestarted server.");
-        })
-        );
+    @Subcommand("restart")
+    @CommandPermission("restapi.command.restart")
+    public void restart(FernCommandIssuer sender) {
+        sender.sendMessage(LegacyComponentSerializer.legacySection().deserialize("&6Restarting server."));
+        Core.restart();
+        sender.sendMessage(LegacyComponentSerializer.legacySection().deserialize("&aRestarted server."));
     }
 
-    /**
-     * Called when executing the command
-     *
-     * @param sender The source
-     * @param args   The arguments provided
-     */
-    @Override
-    public void execute(CommandSender sender, String[] args) {
-        if(args.length == 0) {
-            sendMessage(sender, "&aThe REST API is running on " + Core.getSocketAddress());
-        } else {
-            String arg0 = args[0];
+    @Subcommand("start")
+    @CommandPermission("restapi.command.start")
+    public void start(FernCommandIssuer sender) {
+        sender.sendMessage(LegacyComponentSerializer.legacySection().deserialize("&6Starting server."));
+        Core.runServer();
+        sender.sendMessage(LegacyComponentSerializer.legacySection().deserialize("&aStarted server."));
+    }
 
+    @Subcommand("stop")
+    @CommandPermission("restapi.command.stop")
+    public void stop(FernCommandIssuer sender) {
 
-            try {
-                ArgumentRunnable argumentRunnable = handleArguments(sender, args);
-                argumentRunnable.run(sender, args);
-            } catch (ArgumentNotFoundException e) {
-                List<String> listString = new ArrayList<>();
+        sender.sendMessage(LegacyComponentSerializer.legacySection().deserialize("&6Stopping server."));
+        Core.shutdown();
+        sender.sendMessage(LegacyComponentSerializer.legacySection().deserialize("&aStopping server."));
+    }
 
-                for (Argument argument : arguments) {
-                    listString.add(argument.getName());
-                }
-
-                sendMessage(sender, "&cUnknown argument &6{&e" + arg0 + "&6} &cPossible args: &6" + listString);
-            }
-
-
-
-
+    @Subcommand("reload")
+    @CommandPermission("restapi.command.reload")
+    public void reload(FernCommandIssuer sender) {
+        if(!sender.hasPermission("restapi.command.reload")) {
+            sender.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize("&cYou do not have permission to use this command."));
+            return;
         }
+        sender.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize("&aReloading config."));
+        long timeMS = Core.getConfigManager().sync(false);
+
+
+        sender.sendMessage(LegacyComponentSerializer.legacySection().deserialize("&aReloaded Config. Took: " + timeMS + "ms"));
     }
+
+    @Default
+    public void defaultCommand(FernCommandIssuer sender) {
+        sender.sendMessage(LegacyComponentSerializer.legacyAmpersand().deserialize("&aThe REST API is running on " + Core.getSocketAddress()));
+    }
+
 }

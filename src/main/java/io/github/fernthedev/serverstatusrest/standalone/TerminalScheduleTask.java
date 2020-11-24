@@ -4,13 +4,14 @@ import com.github.fernthedev.fernapi.universal.data.ScheduleTaskWrapper;
 
 import java.util.TimerTask;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 public class TerminalScheduleTask extends ScheduleTaskWrapper<TimerTask, UUID> {
-    private UUID uuid;
-    private Runnable runnable;
+    private final UUID uuid;
+    private final Runnable runnable;
 
-    public TerminalScheduleTask(Runnable runnable, TimerTask task) {
-        super(task);
+    public TerminalScheduleTask(Runnable runnable, TimerTask task, CompletableFuture<Void> completableFuture) {
+        super(task, completableFuture);
         this.uuid = UUID.randomUUID();
         this.runnable = runnable;
     }

@@ -47,7 +47,8 @@ public class Core {
 
             runServer();
 
-            Universal.getCommandHandler().registerFernCommand(new MainCommand());
+            if (Universal.getMethods().getServerType() != null)
+                Universal.getCommandHandler().registerCommand(new MainCommand());
 
             ListREST.setupTask();
         } else throw new IllegalStateException("Already initialized");
@@ -64,6 +65,7 @@ public class Core {
                             buildStreaming(new App()));
 
             socketAddress = context.listenAddress();
+
             started = true;
 
             getLogger().info("ServiceTalk Jersey Server listening on " + socketAddress);

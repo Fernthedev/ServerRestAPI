@@ -1,9 +1,10 @@
 package io.github.fernthedev.serverstatusrest.core.config;
 
+import com.github.fernthedev.config.common.exceptions.ConfigLoadException;
+import com.github.fernthedev.config.gson.GsonConfig;
 import com.github.fernthedev.fernapi.universal.Universal;
 import com.github.fernthedev.fernapi.universal.data.chat.ChatColor;
 import com.github.fernthedev.fernapi.universal.data.network.IServerInfo;
-import com.github.fernthedev.gson.GsonConfig;
 import lombok.Getter;
 
 import java.io.File;
@@ -25,7 +26,11 @@ public class ConfigManager {
      * @return time taken to reload
      */
     public long sync(boolean async) {
-        gsonConfig.load();
+        try {
+            gsonConfig.load();
+        } catch (ConfigLoadException e) {
+            throw new IllegalStateException(e);
+        }
 
         Map<String, ServerData> serverDataMap = getConfigValues().getServers();
 
@@ -66,13 +71,17 @@ public class ConfigManager {
             averageTimeMS = totalMS / amount;
 
 
-            gsonConfig.save();
+            try {
+                gsonConfig.save();
+            } catch (ConfigLoadException e) {
+                e.printStackTrace();
+            }
             long timeEnd = System.nanoTime();
             timeTaken.set((timeEnd - timeStart) / 1000000);
         };
 
         if(async) {
-            Universal.getMethods().runAsync(runnable);
+            Universal.getScheduler().runAsync(runnable);
         } else {
             runnable.run();
         }
